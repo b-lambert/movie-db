@@ -8,16 +8,33 @@
 </head>
 <body>
 
-
-  <div id="container">
-    <h1><%= @title %></h1>
-    <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/<%= @poster_path %>"/>
-    <p><%= @genres %></p>
-    <p><%= @overview %></p>
-    <p><%= @production_companies %></p>
-    <p>Release date: <%= @release_date %></p>
-    <p>Revenue: <%= number_to_currency @revenue %></p>
-    <p><%= @tagline %></p>
-  <div>
+  <div class="row">
+    <div class="col s12 m12 l6">
+      <div class="card-panel">
+        <p><%= @title %></p>
+        <p>
+          <%= @tagline %>
+        </p>
+        <p>
+          Overview: <%= @overview %>
+        </p>
+        <p>
+          Genres: <%= @genres %>
+        </p>
+        <p>
+          Release date: <%= @release_date %>
+        </p>
+        <p>
+          Production companies: <%= @production_companies %>
+        </p>
+        <p>
+          Revenue: <%= number_to_currency @revenue %>
+        </p>
+        </div>
+      </div>
+      <div class="col s12 m12 l6">
+        <img style="max-height: 800px; padding-top: 7.5px;" src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/<%= @poster_path %>"/>
+      </div>
+  </div>
 </body>
 </html>

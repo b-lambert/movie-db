@@ -8,20 +8,20 @@
 </head>
 <body>
 
-
-  <div id="container">
     <% if params[:title].present? %>
-      <h1>Results for <%= params[:title] %>:</h1>
+      <h3>Results for <%= params[:title] %>:</h3>
     <% else %>
-      <h1>Popular Movies</h1>
+      <h3>Popular Movies</h3>
     <% end %>
+      <div class="collection">
       <% @movies.each do |m| %>
-        <p> <%= link_to(m[:title], movie_path(m[:id])) %></p>
+        <%= link_to(m[:title], movie_path(m[:id]), class: "collection-item") %>
       <% end %>
+      </div>
+      <p>Search movies by title:</p>
       <form action="/" method="get">
-        <input name="title" type="text"/><input value="Search Movies" type="submit"></input>
+        <input name="title" placeholder="Citizen Kane" type="text"/><input value="Search " class="btn" type="submit"></input>
       </form>
-  <div>
-  <div id="search-form"></div>
+
 </body>
 </html>
