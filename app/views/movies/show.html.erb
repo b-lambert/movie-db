@@ -10,8 +10,14 @@
 
 
   <div id="container">
-    <h3><%= @title %></h3>
+    <h1><%= @title %></h1>
+    <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/<%= @poster_path %>"/>
     <p><%= @genres %></p>
+    <p><%= @overview %></p>
+    <p><%= @production_companies %></p>
+    <p>Release date: <%= @release_date %></p>
+    <p>Revenue: <%= number_to_currency @revenue %></p>
+    <p><%= @tagline %></p>
   <div>
 </body>
 </html>
