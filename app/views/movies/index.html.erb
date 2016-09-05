@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie DB</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+
+  <input type="text"></input><input type="button" value="Search"></input>
+  <div id="container">
+    <h3>Popular Movies</h3>
+      <% @titles.each do |t| %>
+        <p> <%= t %> </p>
+      <% end %>
+  <div>
+  <div id="search-form"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+  <script type="text/babel">
+    var MovieList = React.createClass({
+      render: function() {
+        return (
+          <ul>
+            {this.props.list.map(function(listValue){
+              return <p><a href={"movie?title=" + listValue }>{listValue}</a></p>;
+            })}
+          </ul>
+        )
+      }
+    });
+
+    var SearchButton = React.createClass({
+        getInitialState() {
+            return { value: 0 };
+        },
+
+        render: function() {
+          return (
+            <div>
+              <input type="text" value={this.state.value} onChange={this.handleChange}/><input onClick={this.handleClick} value="Search React" type="button"></input>
+            </div>
+          )
+        },
+
+        handleChange: function(event) {
+          console.log("handle change called");
+          this.setState({value: event.target.value});
+        },
+
+
+
+
+        // TODO don't want to handle clicks on the text area
+        handleClick: function(){
+          $.get("http://api.themoviedb.org/3/search/movie", {api_key: "c5682edbb47129ba8c07d25e6d13db13", query: this.state.value}, function(data){
+
+          }).done(function(data){
+            var jsonData = data;
+            var results = jsonData["results"];
+            var movies_array = [];
+            $.each(results, function(i, result){
+              movies_array.push(result["title"]);
+            });
+            ReactDOM.render(<MovieList list={movies_array} />, document.getElementById('container'));
+          });
+        }
+      });
+
+      ReactDOM.render(<SearchButton />, document.getElementById('search-form'));
+  </script>
+</body>
+</html>
