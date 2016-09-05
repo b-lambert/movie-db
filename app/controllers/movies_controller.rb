@@ -16,7 +16,6 @@ class MoviesController < ApplicationController
   def show
     id = params[:id]
     response = HTTParty.get("http://api.themoviedb.org/3/movie/#{id}", body: {api_key: "c5682edbb47129ba8c07d25e6d13db13"}).parsed_response
-    p response
     @title = response["title"]
     @genres = response["genres"].map{|x| x["name"]}.join(", ")
     @overview = response["overview"]

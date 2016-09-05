@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= @title %></title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
   <div class="row">
-    <div class="col s12 m12 l6">
+    <div class="col s12 m12 l8">
       <div class="card-panel">
         <p><%= @title %></p>
         <p>
-          <%= @tagline %>
+          Tagline: <%= @tagline %>
         </p>
         <p>
           Overview: <%= @overview %>
@@ -30,11 +20,9 @@
         <p>
           Revenue: <%= number_to_currency @revenue %>
         </p>
-        </div>
       </div>
-      <div class="col s12 m12 l6">
-        <img style="max-height: 800px; padding-top: 7.5px;" src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/<%= @poster_path %>"/>
-      </div>
-  </div>
-</body>
-</html>
+    </div>
+    <div class="col s12 m12 l4">
+      <img style="max-width: 100%; padding-top: 7.5px;" src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/<%= @poster_path %>"/>
+    </div>
+</div>
