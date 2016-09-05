@@ -1,13 +1,10 @@
 class MoviesController < ApplicationController
 
   def index
-    if params[:error].present?
-      @error = true
-    end
     if params[:title].present?
-      response = HTTParty.get("http://api.themoviedb.org/3/search/movie", body: api_credentials_hash.merge({query: params[:title]}))
+      response = HTTParty.get("#{root_api_url}/movie", body: api_credentials_hash.merge({query: params[:title]}))
     else
-      response = HTTParty.post("http://api.themoviedb.org/3/movie/popular", body: api_credentials_hash)
+      response = HTTParty.post("#{root_api_url}/movie/popular", body: api_credentials_hash)
     end
     if response.code == 200
       @movies = response["results"].each_with_object([]) do |result, movie_list|
@@ -20,7 +17,7 @@ class MoviesController < ApplicationController
 
   def show
     id = params[:id]
-    response = HTTParty.get("http://api.themoviedb.org/3/movie/#{id}", body: api_credentials_hash)
+    response = HTTParty.get("#{root_api_url}/movie/#{id}", body: api_credentials_hash)
     if response.code != 200
       redirect_to movies_path, flash: { error: "true" }
     else
@@ -37,7 +34,12 @@ class MoviesController < ApplicationController
 
   private
   def api_credentials_hash
+    # Note: For serious environments this would go in a file not stored in revision control
     {api_key: "c5682edbb47129ba8c07d25e6d13db13"}
+  end
+
+  def root_api_url
+    "http://api.themoviedb.org/3"
   end
 
 end
