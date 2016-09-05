@@ -2,7 +2,7 @@ class MoviesController < ApplicationController
 
   def index
     if params[:title].present?
-      response = HTTParty.get("#{root_api_url}/movie", body: api_credentials_hash.merge({query: params[:title]}))
+      response = HTTParty.get("#{root_api_url}/search/movie", body: api_credentials_hash.merge({query: params[:title]}))
     else
       response = HTTParty.post("#{root_api_url}/movie/popular", body: api_credentials_hash)
     end
