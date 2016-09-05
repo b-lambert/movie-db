@@ -5,19 +5,22 @@ class MoviesController < ApplicationController
       @error = true
     end
     if params[:title].present?
-      results = HTTParty.get("http://api.themoviedb.org/3/search/movie", body: {api_key: "c5682edbb47129ba8c07d25e6d13db13", query: params[:title]})["results"]
+      response = HTTParty.get("http://api.themoviedb.org/3/search/movie", body: api_credentials_hash.merge({query: params[:title]}))
     else
-      res = HTTParty.post("http://api.themoviedb.org/3/movie/popular", body: {api_key: "c5682edbb47129ba8c07d25e6d13db13"})
-      results = HTTParty.post("http://api.themoviedb.org/3/movie/popular", body: {api_key: "c5682edbb47129ba8c07d25e6d13db13"})["results"]
+      response = HTTParty.post("http://api.themoviedb.org/3/movie/popular", body: api_credentials_hash)
     end
-    @movies = results.each_with_object([]) do |result, movie_list|
-      movie_list << {title: result["title"], id: result["id"]}
+    if response.code == 200
+      @movies = response["results"].each_with_object([]) do |result, movie_list|
+        movie_list << {title: result["title"], id: result["id"]}
+      end
+    else
+      @api_error = true
     end
   end
 
   def show
     id = params[:id]
-    response = HTTParty.get("http://api.themoviedb.org/3/movie/#{id}", body: {api_key: "c5682edbb47129ba8c07d25e6d13db13"})
+    response = HTTParty.get("http://api.themoviedb.org/3/movie/#{id}", body: api_credentials_hash)
     if response.code != 200
       redirect_to controller: 'movies', action: 'index', error: true
     else
@@ -30,6 +33,11 @@ class MoviesController < ApplicationController
       @tagline = response["tagline"]
       @poster_path = response["poster_path"]
     end
+  end
+
+  private
+  def api_credentials_hash
+    {api_key: "c5682edbb47129ba8c07d25e6d13db13"}
   end
 
 end

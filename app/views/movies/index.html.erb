@@ -5,11 +5,15 @@
     <% else %>
       <h3>Popular Movies</h3>
     <% end %>
-    <div class="collection">
-      <% @movies.each do |m| %>
-        <%= link_to(m[:title], movie_path(m[:id]), class: "collection-item") %>
-      <% end %>
-    </div>
+    <% if @api_error %>
+      <div>Sorry, we couldn't find any movies, please try again later.</div>
+    <% else %>
+      <div class="collection">
+        <% @movies.each do |m| %>
+          <%= link_to(m[:title], movie_path(m[:id]), class: "collection-item") %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
   <div class="col s12 m12 l4">
     <h3>Search movies by title:</h3>
