@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
     id = params[:id]
     response = HTTParty.get("http://api.themoviedb.org/3/movie/#{id}", body: api_credentials_hash)
     if response.code != 200
-      redirect_to controller: 'movies', action: 'index', error: true
+      redirect_to movies_path, flash: { error: "true" }
     else
       @title = response["title"]
       @genres = response["genres"].map{|x| x["name"]}.join(", ")
