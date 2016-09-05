@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+
+#root-link {
+  padding-left: 10px !important;
+}
+
+#movie-poster {
+  max-width: 100%;
+  padding-top: 7.5px;"
+}

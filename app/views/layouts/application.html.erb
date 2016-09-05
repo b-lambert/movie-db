@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Movie DB</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo" style="padding-left: 10px;">Movie DB</a>
-
+  <head>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>
+      <% if @title.present? %>
+        <%= @title %>
+      <% else %>
+        Movie DB
+      <% end %>
+    </title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="<%= root_path %>" id="root-link" class="brand-logo">Movie DB</a>
+      </div>
+    </nav>
+    <div class="container">
+      <%= yield %>
     </div>
-  </nav>
-  <div class="container">
-
-
-
-  <%= yield %>
-</div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
-</body>
+  </body>
 </html>

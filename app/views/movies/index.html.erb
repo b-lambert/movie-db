@@ -13,8 +13,24 @@
   </div>
   <div class="col s12 m12 l4">
     <h3>Search movies by title:</h3>
-    <form action="/" method="get">
+    <form action="<%= root_path %>" method="get">
       <input name="title" placeholder="Citizen Kane" type="text"/><input value="Search " class="btn" type="submit"></input>
     </form>
   </div>
 </div>
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <h4>Error</h4>
+    <p>Sorry, we couldn't find that movie.</p>
+  </div>
+  <div class="modal-footer">
+    <a class=" modal-action modal-close waves-effect waves-green btn-flat">Dismiss</a>
+  </div>
+</div>
+<% if params[:error] == "true" %>
+  <script>
+    $(document).ready(function(){
+      $('#modal1').openModal();
+    });
+  </script>
+<% end %>
