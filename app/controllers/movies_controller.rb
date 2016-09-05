@@ -2,31 +2,24 @@ class MoviesController < ApplicationController
 
   def index
     # TODO cleanup
-    @titles = HTTParty.post("http://api.themoviedb.org/3/movie/popular", body: {api_key: "c5682edbb47129ba8c07d25e6d13db13"})["results"].each_with_object([]) do |result, titles_list|
-      titles_list << result["title"]
+    results = HTTParty.post("http://api.themoviedb.org/3/movie/popular", body: {api_key: "c5682edbb47129ba8c07d25e6d13db13"})["results"]
+    p results
+    @titles = results.each_with_object([]) do |result, titles_list|
+      titles_list << {title: result["title"], id: result["id"]}
     end
   end
 
   def show
-    title = params[:title]
-    # handleClick: function(){
-    #       console.log("click detected");
-    #       $.get("http://api.themoviedb.org/3/search/movie", {api_key: "c5682edbb47129ba8c07d25e6d13db13", query: "Nemo"}, function(data){
-    #
-    #       }).done(function(data){
-    #         var jsonData = data;
-    #         var results = jsonData["results"];
-    #         movies_array = [];
-    #         $.each(results, function(i, result){
-    #           movies_array.push(result["title"]);
-    #         });
-    #         ReactDOM.render(<MovieList list={movies_array} />, document.getElementById('container'));
-    #       });
-    #     }
-    #   });
-    HTTParty.get("http://api.themoviedb.org/3/search/movie", {api_key: "c5682edbb47129ba8c07d25e6d13db13", query: title})["results"].each do |result|
-      
-    end
+    id = params[:id]
+    response = HTTParty.get("http://api.themoviedb.org/3/movie/#{id}", body: {api_key: "c5682edbb47129ba8c07d25e6d13db13"}).parsed_response
+    p response
+    @title = response["title"]
+    @genres = response["genres"].map{|x| x["name"]}.join(",")
+    @overview = response["overview"]
+    @production_companies = response["production_companies"].map{|x| x["name"]}.join(",")
+    @release_date = response["release_date"]
+    @revenue = response["revenue"]
+    @tagline = response["tagline"]
   end
 
 end

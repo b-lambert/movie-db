@@ -9,11 +9,10 @@
 <body>
 
 
-  <input type="text"></input><input type="button" value="Search"></input>
   <div id="container">
     <h3>Popular Movies</h3>
       <% @titles.each do |t| %>
-        <p> <%= t %> </p>
+        <p> <%= link_to(t[:title], movie_path(t[:id])) %></p>
       <% end %>
   <div>
   <div id="search-form"></div>
@@ -27,7 +26,7 @@
         return (
           <ul>
             {this.props.list.map(function(listValue){
-              return <p><a href={"movie?title=" + listValue }>{listValue}</a></p>;
+              return <p><a href={"movies/show?id=" + listValue["id"] }>{listValue["title"]}</a></p>;
             })}
           </ul>
         )
@@ -52,9 +51,6 @@
           this.setState({value: event.target.value});
         },
 
-
-
-
         // TODO don't want to handle clicks on the text area
         handleClick: function(){
           $.get("http://api.themoviedb.org/3/search/movie", {api_key: "c5682edbb47129ba8c07d25e6d13db13", query: this.state.value}, function(data){
@@ -64,7 +60,7 @@
             var results = jsonData["results"];
             var movies_array = [];
             $.each(results, function(i, result){
-              movies_array.push(result["title"]);
+              movies_array.push({title: result["title"], id: result["id"]});
             });
             ReactDOM.render(<MovieList list={movies_array} />, document.getElementById('container'));
           });
